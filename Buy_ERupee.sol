@@ -33,55 +33,62 @@ contract buy_ERupee {
     uint256 public _20RupeeCount;
     uint256 public _num;
     bytes32 public rootHash;
-    
+
     mapping(address => uint256) public userFundsMapping;
     mapping(address => bool) public isBlackListedMapping;
     uint256[] denominationArr = [500, 200, 100, 50, 20, 10, 5, 2, 1];
 
-    constructor() public {
+    constructor() {
         _owner = msg.sender;
-        
     }
 
     modifier checkValidAddress(bytes32[] calldata proof, address _addr) {
-        require(MerkleProof.verify(proof, rootHash,  keccak256(abi.encodePacked(_addr))) == true, "transfer to non valid address");
+        require(
+            MerkleProof.verify(
+                proof,
+                rootHash,
+                keccak256(abi.encodePacked(_addr))
+            ) == true,
+            "transfer to non valid address"
+        );
         _;
     }
 
     modifier onlyOwner() {
         require(_owner == msg.sender, "can only be called by owner");
         _;
-    }   
+    }
 
     modifier blackListedCheck(address _to) {
         require(
             isBlackListedMapping[_to] == false,
             "reciever's address is blacklisted"
-        );list
+        );
         _;
     }
 
-    function setContracts() external onlyOwner returns (bool) {
-        /*  one_Rupee_contract = _1Rupee;
-        two_Rupee_contract = _2Rupee;
-        five_Rupee_contract = _5Rupee;
-        ten_Rupee_contract = _10Rupee;
-        twenty_Rupee_contract = _20Rupee;
-        fifty_Rupee_contract = _50Rupee;
-        one_hundred_Rupee_contract = _100Rupee;
-        two_hundred_Rupee_contract = _200Rupee;
-        five_hundred_Rupee_contract = _500Rupee;
-        rupee_contract_ERC20 = _rupeeContract_ERC20; */
-        address _1Rupee = 0x27f2db78389654B645D3015Cce02D0EF571b2b89;
-        address _2Rupee = 0x15c15bB162D31cD58890Df3b4A38B59bD64d999c;
-        address _5Rupee = 0x49309576194e07A8D38078346783125Aa2c38B38;
-        address _10Rupee = 0xd9df6aCac6E676293f8C592DE2b5b6b9dB962ed9;
-        address _20Rupee = 0x490E7110FFDFBdA02fB9144cb20D03303dF2f825;
-        address _50Rupee = 0xfc71D3049Cdc12dcb30292D2CB9c7d154A8f6940;
-        address _100Rupee = 0xacC26DD287683Db3a4350d352F10105bB652E1dC;
-        address _200Rupee = 0xd1e69de132D8A0b3a5Ab60cb196E365442f777b9;
-        address _500Rupee = 0x98f0B2F27B5e4304b42d9b77f0E594Fc001F19BD;
-        address _rupeeContract_ERC20 = 0xC348a698ffA8600b58d6F52C6b112B4A7823E8fc;
+    function setContracts(
+        address _1Rupee,
+        address _2Rupee,
+        address _5Rupee,
+        address _10Rupee,
+        address _20Rupee,
+        address _50Rupee,
+        address _100Rupee,
+        address _200Rupee,
+        address _500Rupee,
+        address _rupeeContract_ERC20
+    ) external onlyOwner returns (bool) {
+        // address _1Rupee = 0x27f2db78389654B645D3015Cce02D0EF571b2b89;
+        // address _2Rupee = 0x15c15bB162D31cD58890Df3b4A38B59bD64d999c;
+        // address _5Rupee = 0x49309576194e07A8D38078346783125Aa2c38B38;
+        // address _10Rupee = 0xd9df6aCac6E676293f8C592DE2b5b6b9dB962ed9;
+        // address _20Rupee = 0x490E7110FFDFBdA02fB9144cb20D03303dF2f825;
+        // address _50Rupee = 0xfc71D3049Cdc12dcb30292D2CB9c7d154A8f6940;
+        // address _100Rupee = 0xacC26DD287683Db3a4350d352F10105bB652E1dC;
+        // address _200Rupee = 0xd1e69de132D8A0b3a5Ab60cb196E365442f777b9;
+        // address _500Rupee = 0x98f0B2F27B5e4304b42d9b77f0E594Fc001F19BD;
+        // address _rupeeContract_ERC20 = 0xC348a698ffA8600b58d6F52C6b112B4A7823E8fc;
         rupee_contract_ERC20 = _rupeeContract_ERC20;
         _rupeeContractList = [
             _500Rupee,
@@ -97,8 +104,9 @@ contract buy_ERupee {
         return true;
     }
 
-    function setRootHash(bytes32 _hash) external onlyOwner returns(bool) {
+    function setRootHash(bytes32 _hash) external onlyOwner returns (bool) {
         rootHash = _hash;
+        return true;
     }
 
     function getUserFundAmt(address _user) public view returns (uint256) {
@@ -109,10 +117,10 @@ contract buy_ERupee {
         isBlackListedMapping[_blackListAddr] = true;
     }
 
-    function noteCalculation(uint256 _num1, uint256 _division)
-        public
-        returns (uint256, uint256)
-    {
+    function noteCalculation(
+        uint256 _num1,
+        uint256 _division
+    ) public returns (uint256, uint256) {
         uint256 _RupeeNum = _num1 / _division;
         _num = _num1 % _division;
         return (_RupeeNum, _num);
@@ -122,7 +130,7 @@ contract buy_ERupee {
         uint256[9] memory userNoteCount;
         IERC20 _rupeeContract = IERC20(rupee_contract_ERC20);
         _rupeeContract.transferFrom(msg.sender, address(this), _amount);
-        uint256 _num1 = _amount / (10**18);
+        uint256 _num1 = _amount / (10 ** 18);
 
         for (uint256 k = 0; k < 9; k++) {
             uint256 temp = 0;
@@ -140,10 +148,9 @@ contract buy_ERupee {
         userFundsMapping[msg.sender] += _amount;
     }
 
-    function fetchUserNotes(address _user)
-        internal
-        returns (uint256[9] memory)
-    {
+    function fetchUserNotes(
+        address _user
+    ) internal returns (uint256[9] memory) {
         uint256[9] memory _availArr;
         for (uint256 i = 0; i < 9; i++) {
             IMyToken __Rupee_contract = IMyToken(_rupeeContractList[i]);
@@ -152,10 +159,18 @@ contract buy_ERupee {
         return _availArr;
     }
 
-    function transferAmount(uint256 _amount, address _to)
-        public
-        blackListedCheck(_to)
-    {
+    function transferAmount(
+        uint256 _amount,
+        address _to,
+        bytes32[] calldata proof
+    ) public blackListedCheck(_to) checkValidAddress(proof, _to) {
+        _transferAmount(_amount, _to);
+    }
+
+    function _transferAmount(
+        uint256 _amount,
+        address _to
+    ) internal {
         //uint256[] public availArr = [5, 0, 0, 0, 0, 0, 0, 0, 0];
         //uint256[] public neededArr = [4, 0, 1, 1, 0, 0, 0, 1, 0];
         //uint256[] public denominationsNotes = [500, 200, 100, 50, 20, 10, 5, 2, 1];
@@ -170,7 +185,7 @@ contract buy_ERupee {
         uint256[9] memory transferArr; // transfer to user at last
         userFundsMapping[msg.sender] -= _amount;
         userFundsMapping[_to] += _amount;
-        uint256 _num1 = _amount / (10**18);
+        uint256 _num1 = _amount / (10 ** 18);
         uint256 rem_mint = 0;
         uint256 rem_change = 0;
         uint256 denom_burn;
@@ -188,7 +203,7 @@ contract buy_ERupee {
                 transferArr[i] = NoteNeededCount[i];
                 NoteAvailArr[i] -= NoteNeededCount[i];
             } else {
-                uint256 change = _amount / (10**18) - total;
+                uint256 change = _amount / (10 ** 18) - total;
                 for (uint256 j = i - 1; j >= 0; j--) {
                     if (change < denominationArr[j] && NoteAvailArr[j] > 0) {
                         rem_mint = denominationArr[j] - change;

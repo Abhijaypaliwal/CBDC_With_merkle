@@ -8,7 +8,7 @@ const keccak256 = require('keccak256');
 // Store list of addresses in some data sheeet (Google Sheets or Excel)
 let whitelistAddresses = [
     "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
-    "0x0000000000000000000000000000000000000001",
+    "0x0000000000000000000000000000000000000002",
     "0XDCAB482177A592E424D1C8318A464FC922E8DE40",
     "0X6E21D37E07A6F7E53C7ACE372CEC63D4AE4B6BD0",
     "0X09BAAB19FC77C19898140DADD30C4685C597620B",
@@ -27,7 +27,7 @@ const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
 // Print out the Entire Merkle Tree.
 const rootHash = merkleTree.getRoot();
 console.log('Whitelist Merkle Tree\n', merkleTree.toString());
-console.log("Root Hash: ", rootHash.toString());
+console.log("Root Hash: ", rootHash);
 
 // ***** ***** ***** ***** ***** ***** ***** ***** // 
 
@@ -35,7 +35,9 @@ console.log("Root Hash: ", rootHash.toString());
 // required to derive the root hash of the Merkle Tree
 
 // ✅ Positive verification of address
-const claimingAddress = leafNodes[1];
+//const claimingAddress = leafNodes[1];
+console.log(leafNodes)
+const claimingAddress = keccak256(whitelistAddresses[1]);
 // ❌ Change this address to get a `false` verification
 // const claimingAddress = keccak256("0X5B38DA6A701C568545DCFCB03FCB875F56BEDDD6");
 
@@ -50,3 +52,10 @@ console.log(merkleTree.verify(hexProof, claimingAddress, rootHash));
 
 //["0x5931b4ed56ace4c46b68524cb5bcbf4195f1bbaacbe5228fbd090546c88dd229","0x4dc98316390ed7bafbf7169a7fe567a3f601f8b790edcd0824a5869dd6716e0e","0xacded574e09cb6e9cacdce3bd3268fc5aa37ec3fc513b681b746f586a025cb4c"]
 
+function returnProof(addressUser) {
+  const hexProof = merkleTree.getHexProof(addressUser);
+  return hexProof
+
+
+
+}

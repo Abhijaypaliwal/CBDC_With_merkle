@@ -71,7 +71,7 @@ contract testCBDC is Test {
             address(FiveHundredRupee)
         );
         controller.setControllerContract();
-        rupee_NFT.setRootHash(0xe923ab7b5d8455321b844362e10dd9f095bb976e173a816862e4059a9ae81444);
+        rupee_NFT.setRootHash(0x1a32f151cc44d0996b3f65fcf4bc96ff485780977ca8e1aa6a5714e66509b4d0);
         vm.stopPrank();
     }
 
@@ -83,7 +83,7 @@ contract testCBDC is Test {
         proof[1] = 0x4dc98316390ed7bafbf7169a7fe567a3f601f8b790edcd0824a5869dd6716e0e;
         proof[2] = 0xacded574e09cb6e9cacdce3bd3268fc5aa37ec3fc513b681b746f586a025cb4c;
         //bytes32[] memory  proof = ["0x5931b4ed56ace4c46b68524cb5bcbf4195f1bbaacbe5228fbd090546c88dd229","0x4dc98316390ed7bafbf7169a7fe567a3f601f8b790edcd0824a5869dd6716e0e","0xacded574e09cb6e9cacdce3bd3268fc5aa37ec3fc513b681b746f586a025cb4c"];
-        rupee_NFT.transferAmount(888000000000000000000, address(1), proof);
+        rupee_NFT.transferAmount(888000000000000000000, address(2), proof);
     }
 
     // function testtransfer() external {
