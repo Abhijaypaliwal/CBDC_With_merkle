@@ -1,0 +1,71 @@
+{
+	"compiler": {
+		"version": "0.8.21+commit.d9974bed"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "rupee_contract_ERC20",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_controller",
+						"type": "address"
+					}
+				],
+				"name": "setControllerContract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"set_controller.sol": "setController"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"set_controller.sol": {
+			"keccak256": "0xcdec97342a7111e601f1bf81753bfc47f141b04609f2993f11f3f96e978f4782",
+			"urls": [
+				"bzz-raw://e06de5c95ff4308b8663786cf2f94782385b5a06b8d54b7a0687d2d31d8ddcb5",
+				"dweb:/ipfs/QmWgxBsQ6hf7JhN3GAoM3M71ovHtM1grvj1L4oRq1VXwbZ"
+			]
+		}
+	},
+	"version": 1
+}

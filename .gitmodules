@@ -1,0 +1,9 @@
+[submodule "cbdc_test_foundry/lib/forge-std"]
+	path = cbdc_test_foundry/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "cbdc_test_foundry/lib/openzeppelin-contracts"]
+	path = cbdc_test_foundry/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "lib/forge-std"]
+	path = lib/forge-std
+	url = https://github.com/foundry-rs/forge-std

@@ -1,0 +1,104 @@
+{
+	"compiler": {
+		"version": "0.8.18+commit.87f61d96"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_rootHash",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "count",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "rootHash",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "proof",
+						"type": "bytes32[]"
+					}
+				],
+				"name": "whiteListIncrement",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"merkleproof.sol": "MerkleTreeWhiteListCounter"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/utils/cryptography/MerkleProof.sol": {
+			"keccak256": "0xcf688741f79f4838d5301dcf72d0af9eff11bbab6ab0bb112ad144c7fb672dac",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://85d9c87a481fe99fd28a146c205da0867ef7e1b7edbe0036abc86d2e64eb1f04",
+				"dweb:/ipfs/QmR7m1zWQNfZHUKTtqnjoCjCBbNFcjCxV27rxf6iMfhVtG"
+			]
+		},
+		"merkleproof.sol": {
+			"keccak256": "0x879da0bb9d980e1fc78b6df5f82ab82537868a02c30fd8064637cc614bf5ca09",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://ff57ca7f6ddb6f1ba9c8902157232a1454d81a01c6d52db750e25b2f22f03e12",
+				"dweb:/ipfs/QmUjopmFCPY5rJLuoFAdexs2e5gq2GnXjRxi5EpSh2VqwY"
+			]
+		}
+	},
+	"version": 1
+}

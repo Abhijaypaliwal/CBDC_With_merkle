@@ -1,0 +1,87 @@
+{
+	"compiler": {
+		"version": "0.8.21+commit.d9974bed"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_daughtersName",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_daughtersAge",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "age",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "name",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contractGenerator.sol": "DaughterContract"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contractGenerator.sol": {
+			"keccak256": "0xf74e0f0916b30823f7a0947a9272c25f06f517e847f7d97bd47159ff2b7be479",
+			"urls": [
+				"bzz-raw://58704abc30b076c70bfe00f9e7dfcc83676bd9191c1e85aaa8f4657dbf6c966e",
+				"dweb:/ipfs/QmfRhdop7sXYvtXBkMP8vLExkpVVmpobmWeChLL2AuwdfQ"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Demo Contract Call</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/merkletreejs@latest/merkletree.js"></script>
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+    <script data-main = "main" src = "require.js"></script>
+
+
+
+<body style="background-color:rgb(127, 242, 250);">
+    <p align="center">Hello,</p>
+    <p align="center"> current network is <span id="currNetwork"></span></p>
+    <p align="center">your account address is <span id="accAddr"></span></p>
+    <p align="center">your ETH balance is <span id="fetchFunds"></span></p>
+    <p align="center">your funds are Rupees <span id="fetchERC20Funds"></span></p>
+    <p align="center"> Number of 1 Rupee coins: <span id="fetch1RupeeFunds"></span></p>
+    <p align="center"> Number of 2 Rupee coins: <span id="fetch2RupeeFunds"></span></p>
+    <p align="center"> Number of 5 Rupee coins: <span id="fetch5RupeeFunds"></span></p>
+    <p align="center"> Number of 10 Rupee coins: <span id="fetch10RupeeFunds"></span></p>
+    <p align="center"> Number of 20 Rupee Notes: <span id="fetch20RupeeFunds"></span></p>
+    <p align="center"> Number of 50 Rupee Notes: <span id="fetch50RupeeFunds"></span></p>
+    <p align="center"> Number of 100 Rupee Notes: <span id="fetch100RupeeFunds"></span></p>
+    <p align="center"> Number of 200 Rupee Notes: <span id="fetch200RupeeFunds"></span></p>
+    <p align="center"> Number of 500 Rupee Notes: <span id="fetch500RupeeFunds"></span></p>
+   
+
+    <p align="center">load amount <input type="text" id="myLoad"> <br> <br>
+        <button id='transferERC20'>LOAD</button>
+    </p>
+
+    <p align="center">transfer address <input type="text" id="transferAddr">
+    </p>
+
+    <p align="center">transfer amount <input type="text" id="transferNFT"> <br><br>
+        <button id='transferERC721'>transfer</button>
+    </p>
+
+    <p align="center"> Transaction details <span id="transactionDetails"></span></p>
+
+    <script type="text/javascript">
+        var account = null;
+        var contract = null;
+        var chainId = null;
+        var networkType = null;
+        var address = '0x624F1Bca893e4A447A299C0Faf282a5166aF8CC3';
+        var _1Rupee = '0xD54d3F6C3b863f29D4FC1d1e2Ae0EAC27b13d2EF';
+        var _2Rupee = '0xE5FdE1987e7Ec52b92E4f939c2B64299748a3D44';
+        var _5Rupee = '0x8CEC8D539D468Cd19563174eFf7705067A9FD582';
+        var _10Rupee = '0xB16c4005ACAb743e1EF2039f4D3E1Fd693beA34d';
+        var _20Rupee = '0x7D148294204E94e9592bE603C15e231b67Fb1d87';
+        var _50Rupee = '0xCa7dd6c3Edf65eeC61CeC7212df319610A72e479';
+        var _100Rupee = '0xe0C8919C807D262dEB2957eEfA512FE383094C83';
+        var _200Rupee = '0xdF035655Ff59008A07F46E16B1B9788FE4169eA2';
+        var _500Rupee = '0xec4AE94411412cBeD68C531A5dF7a0A7A1534dE3';
+
+        const abi_buy_ERupee = [{ "inputs": [{ "internalType": "address", "name": "_blackListAddr", "type": "address" }], "name": "blackList", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_amount", "type": "uint256" }], "name": "buy_With_note_denominations", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_num1", "type": "uint256" }, { "internalType": "uint256", "name": "_division", "type": "uint256" }], "name": "noteCalculation", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "setContracts", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_amount", "type": "uint256" }, { "internalType": "address", "name": "_to", "type": "address" }], "name": "transferAmount", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [], "name": "_10RupeeCount", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "_20RupeeCount", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "_5RupeeCount", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "_num", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "name": "_rupeeContractList", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "fifty_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "five_hundred_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "five_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "_user", "type": "address" }], "name": "getUserFundAmt", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "isBlackListedMapping", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "one_hundred_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "one_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "rupee_contract_ERC20", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "ten_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "twenty_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "two_hundred_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "two_Rupee_contract", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "userFundsMapping", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }];
+        const abi_1_rupee = [{ "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "_transfer", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "_controller", "type": "address" }], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "approved", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "approved", "type": "bool" }], "name": "ApprovalForAll", "type": "event" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "approve", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "arrayMappingpop", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "_addr", "type": "address" }], "name": "changeController", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }], "name": "OwnershipTransferred", "type": "event" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "to", "type": "address" }], "name": "safeMint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "safeTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "safeTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "operator", "type": "address" }, { "internalType": "bool", "name": "approved", "type": "bool" }], "name": "setApprovalForAll", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "inputs": [{ "internalType": "address", "name": "_from", "type": "address" }, { "internalType": "address", "name": "_to", "type": "address" }], "name": "transfer_rupee", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "transferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "controllerAddr", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "getApproved", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "name": "HolderMapping", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }, { "internalType": "address", "name": "operator", "type": "address" }], "name": "isApprovedForAll", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "ownerOf", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "_user", "type": "address" }], "name": "return_num_notes", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "symbol", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }], "name": "tokenURI", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }];
+        (async function () {
+            if (window.ethereum) {
+                await window.ethereum.send('eth_requestAccounts');
+                window.web3 = new Web3(window.ethereum);
+                chainId = await web3.eth.getChainId();
+                document.getElementById('currNetwork').innerText = "Goerli"
+
+                const target = "0x5"
+                if (chainId != target) {
+
+                    const x = window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: target }],
+                    })
+                        .catch((error) => {
+                            window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [{
+                                    chainId: '0x5',
+                                    chainName: 'Goerli',
+                                    nativeCurrency: {
+                                        name: 'Ethereum',
+                                        symbol: 'ETH',
+                                        decimals: 18
+                                    },
+                                    rpcUrls: ['https://ethereum-sepolia.blockpi.network/v1/rpc/public'],
+                                    blockExplorerUrls: ['https://sepolia.etherscan.io/']
+                                }]
+                            })
+                                .catch((error) => {
+                                    console.log(error)
+                                })
+                        })
+
+                }
+
+
+
+                var accounts = await web3.eth.getAccounts();
+                account = accounts[0];
+                console.log(account)
+                contract = new web3.eth.Contract(abi_buy_ERupee, address)
+                document.getElementById('accAddr').innerText = account;
+                document.getElementById('fetchFunds').innerText = await fetchUserFunds();
+                document.getElementById('fetchERC20Funds').innerText = await fetchUserERC20Funds();
+                document.getElementById('fetch1RupeeFunds').innerText = await fetchUser1RupeeFunds();
+                document.getElementById('fetch2RupeeFunds').innerText = await fetchUser2RupeeFunds();
+                document.getElementById('fetch5RupeeFunds').innerText = await fetchUser5RupeeFunds();
+                document.getElementById('fetch10RupeeFunds').innerText = await fetchUser10RupeeFunds();
+                document.getElementById('fetch20RupeeFunds').innerText = await fetchUser20RupeeFunds();
+                document.getElementById('fetch50RupeeFunds').innerText = await fetchUser50RupeeFunds();
+                document.getElementById('fetch100RupeeFunds').innerText = await fetchUser100RupeeFunds();
+                document.getElementById('fetch200RupeeFunds').innerText = await fetchUser200RupeeFunds();
+                document.getElementById('fetch500RupeeFunds').innerText = await fetchUser500RupeeFunds();
+                document.getElementById('transferERC20').onclick = () => {
+                    loadAmt();
+                }
+
+                document.getElementById('transferERC721').onclick = () => {
+                    transferAmounts();
+                }
+
+            }
+            else {
+                alert("please connect to metamask or any web3 supported browser");
+            }
+        })();
+
+
+        async function fetchUserFunds() {
+            let data = await web3.eth.getBalance(account);
+            const x = await web3.utils.fromWei(data, "ether");
+
+            return x;
+        }
+
+        async function valueSet() {
+            var x = document.getElementById("myText").value;
+            contract.methods.set(x).send({ from: account });
+        }
+
+        async function transferAmounts() {
+            var addr = document.getElementById("transferAddr").value;
+            var amt = document.getElementById("transferNFT").value;
+            var amtEncoded = await web3.utils.toWei(amt, 'ether')
+            addressNew = new web3.eth.Contract(abi_buy_ERupee, "0x09EdDCe24950B2B286911209d2c71E0650B1BE6B");
+            addressNew.methods.transferAmount(amtEncoded, addr).send({ from: account })
+                .then(receipt => {
+                    alert("funds successfully Transferred");
+                })
+                .catch(error => {
+                    console.error("there is error");
+                });
+        }
+
+        async function loadAmt() {
+            var amt = document.getElementById("myLoad").value;
+            console.log(typeof (amt))
+            var amtEncoded = await web3.utils.toWei(amt, 'ether')
+            var addressNew = new web3.eth.Contract(abi_buy_ERupee, "0x09EdDCe24950B2B286911209d2c71E0650B1BE6B")
+            console.log({ addressNew })
+            addressNew.methods.buy_With_note_denominations(amtEncoded, account).send({ from: account })
+                .then(receipt => {
+                    console.log(receipt.blockHash);
+                    document.getElementById('transactionDetails').innerText = receipt.blockHash;
+                    alert("funds successfully Transferred");
+                })
+                .catch(error => {
+                    console.error("there is error");
+                });
+        }
+
+        async function fetchUserERC20Funds() {
+            addressNew = new web3.eth.Contract(abi_buy_ERupee, '0x09EdDCe24950B2B286911209d2c71E0650B1BE6B');
+            let funds = await addressNew.methods.getUserFundAmt(account).call();
+            const x = await web3.utils.fromWei(funds, "ether");
+            console.log(x)
+            return x
+
+        }
+
+        async function fetchUser1RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _1Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function fetchUser2RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _2Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function fetchUser5RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _5Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function fetchUser10RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _10Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function fetchUser20RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _20Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function fetchUser50RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _50Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function fetchUser100RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _100Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function fetchUser200RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _200Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function fetchUser500RupeeFunds() {
+            addressNew = new web3.eth.Contract(abi_1_rupee, _500Rupee);
+            let funds = await addressNew.methods.balanceOf(account).call();
+            return funds
+
+        }
+
+        async function getNetwork() {
+            const network = document.getElementById('input').value;
+            console.log("network is", network);
+        }
+
+        async function generateTree() {
+            const { MerkleTree } = require('merkletreejs')
+            const SHA256 = require('crypto-js/sha256')
+
+            const leaves = ['a', 'b', 'c'].map(x => SHA256(x))
+            const tree = new MerkleTree(leaves, SHA256)
+            const root = tree.getRoot().toString('hex')
+            const leaf = SHA256('a')
+            const proof = tree.getProof(leaf)
+            console.log(tree.verify(proof, leaf, root)) // true
+
+
+            const badLeaves = ['a', 'x', 'c'].map(x => SHA256(x))
+            const badTree = new MerkleTree(badLeaves, SHA256)
+            const badLeaf = SHA256('x')
+            const badProof = badTree.getProof(badLeaf)
+            console.log(badTree.verify(badProof, badLeaf, root)) // false
+        }
+
+    </script>
+</body>
+
+</html>
