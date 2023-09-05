@@ -27,10 +27,12 @@
             text-align: right;
         }
 
+        
+
         .image-container img {
-            width: 300px;
+            width: 350px;
             /* Adjust the width as needed */
-            height: auto;
+            height: 150px;
             /* Maintain the aspect ratio */
         }
     </style>
@@ -104,16 +106,16 @@
         var contract = null;
         var chainId = null;
         var networkType = null;
-        var address = '0x522b46dA8DdBf2cE7A721Ca4041522B989CC46cd';
-        var _1Rupee = '0xF283fa2Fb20024d63bc5893966e5ae48aEbfF826';
-        var _2Rupee = '0x70c80Bcb03870E6Ff0083C169057C07598783A61';
-        var _5Rupee = '0x95aa211506bd770c1990bb5E025281337892d7c4';
-        var _10Rupee = '0xAeFC0A7D1b4D616Ad940DE89Ae2e66ee16578370';
-        var _20Rupee = '0x96BE0d498966aa23Fd0EDA51A8864585C8eD9fB5';
-        var _50Rupee = '0x682331e2d89dfd801Bbc7f54829Ed13191A0347F';
-        var _100Rupee = '0xdb2896cb90E3983A6a2753777208330Bd97e4528';
-        var _200Rupee = '0x42B7e460B7FD085000A2Bd915A9418D84beE8a99';
-        var _500Rupee = '0x8166fD2aFA0694d16cF287343543d5d3CbFd8b9e';
+        var address = '0xADD204BdA1bFB6ec8e15f534830C2b96DC06C336';
+        var _1Rupee = '0xD1Bc31e523c906EeB563f3998B5D5092915B16c0';
+        var _2Rupee = '0x50BEa64D22cd804F5b5757DBC30c2D3d84ea4c52';
+        var _5Rupee = '0xEeA9936aedb6BB4301EC4ca8E9f708E67e99CD8E';
+        var _10Rupee = '0x34Dd88b6EA64e5E13B58D4C0f446203A82D08EaA';
+        var _20Rupee = '0xDf59F2F8d61C41842F1Dcf64952D7c360CBd839a';
+        var _50Rupee = '0xa790f6CD3541675C4494378E1f549E0B98adaA2b';
+        var _100Rupee = '0x1B5779492ed68F25E18e7d69057B04b2EAC2d83a';
+        var _200Rupee = '0x6eEc213e7706eDB7B1cbD6c5AD4a790988734f32';
+        var _500Rupee = '0x21b8C308272f8cA170b303f30E3dAc2C9De911D6';
 
         let whitelistAddresses = [
             "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
@@ -253,7 +255,7 @@
         }
 
         async function fetchUserERC20Funds() {
-            addressNew = new web3.eth.Contract(abi_buy_ERupee, '0x522b46dA8DdBf2cE7A721Ca4041522B989CC46cd');
+            addressNew = new web3.eth.Contract(abi_buy_ERupee, address);
             let funds = await addressNew.methods.getUserFundAmt(account).call();
             const x = await web3.utils.fromWei(funds, "ether");
             console.log(x)

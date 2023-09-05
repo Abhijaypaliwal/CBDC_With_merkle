@@ -145,11 +145,6 @@ contract buy_ERupee {
     }
 
     function _transferAmount(uint256 _amount, address _to) internal {
-        //uint256[] public availArr = [5, 0, 0, 0, 0, 0, 0, 0, 0];
-        //uint256[] public neededArr = [4, 0, 1, 1, 0, 0, 0, 1, 0];
-        //uint256[] public denominationsNotes = [500, 200, 100, 50, 20, 10, 5, 2, 1];
-        //uint256[] public transferArr = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-        //uint256 public rem_mint = 0;
         require(
             userFundsMapping[msg.sender] >= _amount,
             "funds are less than requested"
@@ -193,10 +188,7 @@ contract buy_ERupee {
                 break;
             }
         }
-        // send denom_burn from sender's wallet to 0 address-done
-        // send transferArr's content to reciever's address- done
-        // mint notes of rem_mint and send to sender- done
-        // mint notes of rem_change and send to reciever- done
+
         sendNFT(transferArr, _to, rem_mint, rem_change);
     }
 
