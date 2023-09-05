@@ -17,23 +17,10 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 contract buy_ERupee {
     address immutable _owner;
-    address public one_Rupee_contract;
-    address public two_Rupee_contract;
-    address public five_Rupee_contract;
-    address public ten_Rupee_contract;
-    address public twenty_Rupee_contract;
-    address public fifty_Rupee_contract;
-    address public one_hundred_Rupee_contract;
-    address public two_hundred_Rupee_contract;
-    address public five_hundred_Rupee_contract;
     address public rupee_contract_ERC20;
     address[9] public _rupeeContractList;
-    uint256 public _5RupeeCount = 0;
-    uint256 public _10RupeeCount;
-    uint256 public _20RupeeCount;
     uint256 public _num;
     bytes32 public rootHash;
-
     mapping(address => uint256) public userFundsMapping;
     mapping(address => bool) public isBlackListedMapping;
     uint256[] denominationArr = [500, 200, 100, 50, 20, 10, 5, 2, 1];
@@ -79,16 +66,6 @@ contract buy_ERupee {
         address _500Rupee,
         address _rupeeContract_ERC20
     ) external onlyOwner returns (bool) {
-        // address _1Rupee = 0x27f2db78389654B645D3015Cce02D0EF571b2b89;
-        // address _2Rupee = 0x15c15bB162D31cD58890Df3b4A38B59bD64d999c;
-        // address _5Rupee = 0x49309576194e07A8D38078346783125Aa2c38B38;
-        // address _10Rupee = 0xd9df6aCac6E676293f8C592DE2b5b6b9dB962ed9;
-        // address _20Rupee = 0x490E7110FFDFBdA02fB9144cb20D03303dF2f825;
-        // address _50Rupee = 0xfc71D3049Cdc12dcb30292D2CB9c7d154A8f6940;
-        // address _100Rupee = 0xacC26DD287683Db3a4350d352F10105bB652E1dC;
-        // address _200Rupee = 0xd1e69de132D8A0b3a5Ab60cb196E365442f777b9;
-        // address _500Rupee = 0x98f0B2F27B5e4304b42d9b77f0E594Fc001F19BD;
-        // address _rupeeContract_ERC20 = 0xC348a698ffA8600b58d6F52C6b112B4A7823E8fc;
         rupee_contract_ERC20 = _rupeeContract_ERC20;
         _rupeeContractList = [
             _500Rupee,
@@ -152,7 +129,7 @@ contract buy_ERupee {
         address _user
     ) internal returns (uint256[9] memory) {
         uint256[9] memory _availArr;
-        for (uint256 i = 0; i < 9; i++) {
+        for (uint256 i = 0; i < 9; ++i) {
             IMyToken __Rupee_contract = IMyToken(_rupeeContractList[i]);
             _availArr[i] = __Rupee_contract.return_num_notes(_user);
         }
@@ -167,10 +144,7 @@ contract buy_ERupee {
         _transferAmount(_amount, _to);
     }
 
-    function _transferAmount(
-        uint256 _amount,
-        address _to
-    ) internal {
+    function _transferAmount(uint256 _amount, address _to) internal {
         //uint256[] public availArr = [5, 0, 0, 0, 0, 0, 0, 0, 0];
         //uint256[] public neededArr = [4, 0, 1, 1, 0, 0, 0, 1, 0];
         //uint256[] public denominationsNotes = [500, 200, 100, 50, 20, 10, 5, 2, 1];
@@ -190,14 +164,14 @@ contract buy_ERupee {
         uint256 rem_change = 0;
         uint256 denom_burn;
 
-        for (uint256 k = 0; k < 9; k++) {
+        for (uint256 k = 0; k < 9; ++k) {
             uint256 temp = 0;
             (temp, _num1) = (noteCalculation(_num1, denominationArr[k]));
             NoteNeededCount[k] = (temp);
         }
         uint256 total = 0;
 
-        for (uint256 i = 0; i < 9; i++) {
+        for (uint256 i = 0; i < 9; ++i) {
             if (NoteAvailArr[i] >= NoteNeededCount[i]) {
                 total += denominationArr[i] * NoteNeededCount[i];
                 transferArr[i] = NoteNeededCount[i];
@@ -232,8 +206,8 @@ contract buy_ERupee {
         uint256 _rem_mint,
         uint256 _rem_change
     ) internal {
-        for (uint256 i = 0; i < 9; i++) {
-            for (uint256 j = 0; j < _transferArr[i]; j++) {
+        for (uint256 i = 0; i < 9; ++i) {
+            for (uint256 j = 0; j < _transferArr[i]; ++j) {
                 IMyToken __Rupee_contract = IMyToken(_rupeeContractList[i]);
                 __Rupee_contract.transfer_rupee(msg.sender, _to);
             }
@@ -244,14 +218,14 @@ contract buy_ERupee {
         uint256[9] memory NoteNeeded_rem_mint;
         uint256[9] memory NoteNeeded_rem_change;
 
-        for (uint256 k = 0; k < 9; k++) {
+        for (uint256 k = 0; k < 9; ++k) {
             uint256 temp = 0;
             (temp, _num1) = (noteCalculation(_num1, denominationArr[k]));
             NoteNeeded_rem_mint[k] = temp;
         }
 
-        for (uint256 i = 0; i < 9; i++) {
-            for (uint256 j = 0; j < NoteNeeded_rem_mint[i]; j++) {
+        for (uint256 i = 0; i < 9; ++i) {
+            for (uint256 j = 0; j < NoteNeeded_rem_mint[i]; ++j) {
                 IMyToken __Rupee_contract = IMyToken(_rupeeContractList[i]);
                 __Rupee_contract.safeMint(msg.sender);
             }
