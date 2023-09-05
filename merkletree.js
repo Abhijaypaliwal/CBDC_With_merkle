@@ -13,7 +13,9 @@ let whitelistAddresses = [
     "0X6E21D37E07A6F7E53C7ACE372CEC63D4AE4B6BD0",
     "0X09BAAB19FC77C19898140DADD30C4685C597620B",
     "0XCC4C29997177253376528C05D3DF91CF2D69061A",
-    "0xdD870fA1b7C4700F2BD7f44238821C26f7392148" // The address in remix
+    "0xdD870fA1b7C4700F2BD7f44238821C26f7392148", 
+    "0x70C432BfEBed51f2C2Eb68B15dE0740ED83ca83A",
+    "0x5C6F0946bd1aFb69d52B248e0342EA7A43E68E3F" // The address in remix
   ];
 
 // 3. Create a new array of `leafNodes` by hashing all indexes of the `whitelistAddresses`
@@ -37,7 +39,7 @@ console.log("Root Hash: ", rootHash);
 // ✅ Positive verification of address
 //const claimingAddress = leafNodes[1];
 console.log(leafNodes)
-const claimingAddress = keccak256(whitelistAddresses[1]);
+const claimingAddress = keccak256(whitelistAddresses[7]);
 // ❌ Change this address to get a `false` verification
 // const claimingAddress = keccak256("0X5B38DA6A701C568545DCFCB03FCB875F56BEDDD6");
 
