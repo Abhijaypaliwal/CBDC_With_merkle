@@ -1,10 +1,10 @@
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "./ERC721.sol";
+
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract _1Rupee is ERC721, Ownable {
+contract _1Rupee is ERC721 {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -53,7 +53,7 @@ contract _1Rupee is ERC721, Ownable {
     }
 }
 
-contract _2Rupee is ERC721, Ownable {
+contract _2Rupee is ERC721{
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -100,7 +100,7 @@ contract _2Rupee is ERC721, Ownable {
     }
 }
 
-contract _5Rupee is ERC721, Ownable {
+contract _5Rupee is ERC721 {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -145,7 +145,7 @@ contract _5Rupee is ERC721, Ownable {
     }
 }
 
-contract _10Rupee is ERC721, Ownable {
+contract _10Rupee is ERC721 {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -191,7 +191,7 @@ contract _10Rupee is ERC721, Ownable {
     }
 }
 
-contract _20Rupee is ERC721, Ownable {
+contract _20Rupee is ERC721 {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -236,7 +236,7 @@ contract _20Rupee is ERC721, Ownable {
     }
 }
 
-contract _50Rupee is ERC721, Ownable {
+contract _50Rupee is ERC721 {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -281,7 +281,7 @@ contract _50Rupee is ERC721, Ownable {
     }
 }
 
-contract _100Rupee is ERC721, Ownable {
+contract _100Rupee is ERC721{
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -327,7 +327,7 @@ contract _100Rupee is ERC721, Ownable {
     }
 }
 
-contract _200Rupee is ERC721, Ownable {
+contract _200Rupee is ERC721 {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -373,7 +373,7 @@ contract _200Rupee is ERC721, Ownable {
     }
 }
 
-contract _500Rupee is ERC721, Ownable {
+contract _500Rupee is ERC721 {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
