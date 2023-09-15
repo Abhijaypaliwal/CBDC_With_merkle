@@ -234,7 +234,7 @@
             else {
                 addressNew.methods.transferAmount(amtEncoded, addr, hexProof).send({ from: account })
                     .then(receipt => {
-                        var reciept = "you send" + amt + "to address" + addr + "with txn ID" + "https://goerli.etherscan.io/tx/" + receipt.blockHash
+                        var reciept = "you send " + amt + " to address " + addr + " with txn ID " + "https://goerli.etherscan.io/tx/" + receipt.blockHash
                         document.getElementById('transactionDetails').innerText = reciept;
                         alert("funds successfully Transferred");
                        // location.reload()
